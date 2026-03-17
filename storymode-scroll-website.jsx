@@ -372,13 +372,12 @@ const styles = `
   /* ========== PLAY PAGE ========== */
   .play-section {
     position: relative;
-    overflow: hidden;
   }
 
   .play-item {
     position: absolute;
     cursor: pointer;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
   }
 
   .play-item video {

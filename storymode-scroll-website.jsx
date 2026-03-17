@@ -378,11 +378,11 @@ const styles = `
     position: absolute;
     cursor: pointer;
     transform: translate(-50%, -50%);
+    mix-blend-mode: multiply;
   }
 
   .play-item video {
     display: block;
-    mix-blend-mode: multiply;
     transition: transform 0.2s ease;
     width: var(--item-size, 14vw);
     min-width: 80px;

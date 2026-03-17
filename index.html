@@ -326,14 +326,13 @@
                     <video
                       ref={el => videoRefs.current[name] = el}
                       src={video}
-                      loop
                       muted
                       playsInline
+                      onEnded={() => setActive(null)}
                     />
                     <audio
                       ref={el => audioRefs.current[name] = el}
                       src={audio}
-                      loop
                     />
                   </div>
                 ))}

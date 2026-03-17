@@ -751,14 +751,14 @@ const PlaySection = React.forwardRef((props, ref) => {
             <video
               ref={el => videoRefs.current[name] = el}
               src={video}
-              loop
               muted
               playsInline
+              onEnded={() => setActive(n => n === name ? null : n)}
             />
             <audio
               ref={el => audioRefs.current[name] = el}
               src={audio}
-              loop
+              onEnded={() => setActive(n => n === name ? null : n)}
             />
           </div>
         ))}

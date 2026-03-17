@@ -328,11 +328,12 @@
                       src={video}
                       muted
                       playsInline
-                      onEnded={() => setActive(null)}
+                      onEnded={() => setActive(n => n === name ? null : n)}
                     />
                     <audio
                       ref={el => audioRefs.current[name] = el}
                       src={audio}
+                      onEnded={() => setActive(n => n === name ? null : n)}
                     />
                   </div>
                 ))}

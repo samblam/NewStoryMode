@@ -723,9 +723,9 @@ const PlaySection = React.forwardRef((props, ref) => {
   const videoRefs = useRef({});
   const audioRefs = useRef({});
 
-  const handleEnded = React.useCallback((name) => {
+  const handleEnded = (name) => {
     setActive(n => n === name ? null : n);
-  }, []);
+  };
 
   const handleClick = (name) => {
     // Stop whatever is currently playing
@@ -757,12 +757,12 @@ const PlaySection = React.forwardRef((props, ref) => {
               src={video}
               muted
               playsInline
-              onEnded={() => handleEnded(name)}
+              onEnded={handleEnded.bind(null, name)}
             />
             <audio
               ref={el => audioRefs.current[name] = el}
               src={audio}
-              onEnded={() => handleEnded(name)}
+              onEnded={handleEnded.bind(null, name)}
             />
           </div>
         ))}

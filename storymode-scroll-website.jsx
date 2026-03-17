@@ -371,37 +371,26 @@ const styles = `
   
   /* ========== PLAY PAGE ========== */
   .play-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-  }
-
-  .play-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: center;
-    align-items: center;
-    max-width: 1080px;
+    position: relative;
   }
 
   .play-item {
+    position: absolute;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    transform: translate(-50%, -50%);
   }
 
   .play-item video {
-    width: 180px;
-    mix-blend-mode: multiply;
     display: block;
+    mix-blend-mode: multiply;
     transition: transform 0.2s ease;
+    width: var(--item-size, 14vw);
+    min-width: 80px;
+    max-width: 200px;
   }
 
   .play-item:hover video {
-    transform: scale(1.08);
+    transform: scale(1.1);
   }
   
   /* ========== CONTACT PAGE ========== */
@@ -715,7 +704,17 @@ const AboutSection = React.forwardRef((props, ref) => {
 
 // ========== PLAY SECTION ==========
 const characters = [
-  { name: 'bird', video: 'character animations/bird.mp4', audio: 'sounds/bird.wav' },
+  { name: 'bird',       video: 'character animations/bird.mp4',       audio: 'sounds/bird.wav',        x: '8%',  y: '7%',  size: '13vw' },
+  { name: 'glyph',      video: 'character animations/glyph.mp4',      audio: 'sounds/glyph.wav',       x: '34%', y: '4%',  size: '11vw' },
+  { name: 'mondrian',   video: 'character animations/mondrian.mp4',   audio: 'sounds/mondrian.wav',    x: '62%', y: '8%',  size: '15vw' },
+  { name: 'star',       video: 'character animations/star.mp4',       audio: 'sounds/star.wav',        x: '89%', y: '5%',  size: '13vw' },
+  { name: 'pizza',      video: 'character animations/pizza.mp4',      audio: 'sounds/pizza.wav',       x: '5%',  y: '44%', size: '12vw' },
+  { name: 'runner',     video: 'character animations/runner.mp4',     audio: 'sounds/running man.wav', x: '30%', y: '50%', size: '14vw' },
+  { name: 'semicircle', video: 'character animations/semicircle.mp4', audio: 'sounds/semicircle.wav',  x: '57%', y: '38%', size: '11vw' },
+  { name: 'pentaline',  video: 'character animations/pentaline.mp4',  audio: 'sounds/pentaline.wav',   x: '84%', y: '46%', size: '13vw' },
+  { name: 'smile',      video: 'character animations/smile.mp4',      audio: 'sounds/smile.wav',       x: '15%', y: '72%', size: '12vw' },
+  { name: 'dotsquare',  video: 'character animations/dotsquare.mp4',  audio: 'sounds/dotsquare.wav',   x: '44%', y: '70%', size: '11vw' },
+  { name: 'spinner',    video: 'character animations/spinner.mp4',    audio: 'sounds/spinner.wav',     x: '76%', y: '68%', size: '14vw' },
 ];
 
 const PlaySection = React.forwardRef((props, ref) => {
@@ -749,24 +748,22 @@ const PlaySection = React.forwardRef((props, ref) => {
 
   return (
     <section ref={ref} className="section play-section">
-      <div className="play-grid">
-        {characters.map(({ name, video, audio }) => (
-          <div key={name} className="play-item" onClick={() => handleClick(name)}>
-            <video
-              ref={el => videoRefs.current[name] = el}
-              src={video}
-              muted
-              playsInline
-              onEnded={handleEnded.bind(null, name)}
-            />
-            <audio
-              ref={el => audioRefs.current[name] = el}
-              src={audio}
-              onEnded={handleEnded.bind(null, name)}
-            />
-          </div>
-        ))}
-      </div>
+      {characters.map(({ name, video, audio, x, y, size }) => (
+        <div key={name} className="play-item" style={{ left: x, top: y, '--item-size': size }} onClick={() => handleClick(name)}>
+          <video
+            ref={el => videoRefs.current[name] = el}
+            src={video}
+            muted
+            playsInline
+            onEnded={handleEnded.bind(null, name)}
+          />
+          <audio
+            ref={el => audioRefs.current[name] = el}
+            src={audio}
+            onEnded={handleEnded.bind(null, name)}
+          />
+        </div>
+      ))}
     </section>
   );
 });

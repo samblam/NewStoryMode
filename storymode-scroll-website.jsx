@@ -715,7 +715,7 @@ const AboutSection = React.forwardRef((props, ref) => {
 
 // ========== PLAY SECTION ==========
 const characters = [
-  { name: 'bird', video: 'character animations/bird.mov', audio: 'sounds/bird.wav' },
+  { name: 'bird', video: 'character animations/bird.mp4', audio: 'sounds/bird.wav' },
 ];
 
 const PlaySection = React.forwardRef((props, ref) => {

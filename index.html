@@ -46,8 +46,8 @@
           .speaker-icon { position: absolute; display: flex; align-items: center; gap: 8px; }
           .speaker-left { left: 80px; transform: scaleX(-1); }
           .speaker-right { right: 80px; }
-          .speaker-lines { display: flex; flex-direction: column; gap: 6px; }
-          .speaker-line { height: 3px; background: var(--cta-red); border-radius: 2px; }
+          .speaker-lines { display: flex; flex-direction: column; gap: 20px; align-items: flex-end; }
+          .speaker-line { height: 6px; background: var(--cta-red); border-radius: 2px; transform-origin: right center; }
           .speaker-triangle { width: 0; height: 0; border-top: 45px solid transparent; border-bottom: 45px solid transparent; border-left: 55px solid var(--elysium-brown); }
           .speaker-rect { width: 35px; height: 90px; background: var(--eva-blue); }
           .hero-card { background: var(--storymode-green); padding: 50px 55px; max-width: 500px; position: relative; }
@@ -127,9 +127,9 @@
         const SpeakerIcon = ({ side }) => (
           <div className={`speaker-icon speaker-${side}`}>
             <div className="speaker-lines">
-              {[22, 30, 38, 30, 22].map((w, i) => (
-                <div key={i} className="speaker-line" style={{ width: w }} />
-              ))}
+              <div className="speaker-line" style={{ width: 42, transform: 'rotate(-30deg)' }} />
+              <div className="speaker-line" style={{ width: 54 }} />
+              <div className="speaker-line" style={{ width: 42, transform: 'rotate(30deg)' }} />
             </div>
             <div className="speaker-rect" />
             <div className="speaker-triangle" />

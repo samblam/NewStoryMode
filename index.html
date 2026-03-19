@@ -44,8 +44,8 @@
           .color-bar { width: 24px; height: 10px; }
           .home-section { display: flex; align-items: center; justify-content: center; padding: 40px; }
           .speaker-icon { position: absolute; display: flex; align-items: center; gap: 8px; }
-          .speaker-left { left: 80px; transform: scaleX(-1); }
-          .speaker-right { right: 80px; }
+          .speaker-left { left: 80px; }
+          .speaker-right { right: 80px; transform: scaleX(-1); }
           .speaker-lines { display: flex; flex-direction: column; gap: 20px; align-items: flex-end; }
           .speaker-line { height: 6px; background: var(--cta-red); border-radius: 2px; transform-origin: right center; }
           .speaker-triangle { width: 0; height: 0; border-top: 45px solid transparent; border-bottom: 45px solid transparent; border-left: 55px solid var(--elysium-brown); }
@@ -128,13 +128,13 @@
           <div className={`speaker-icon speaker-${side}`}>
             <svg width="210" height="160" viewBox="0 0 210 160">
               {/* 3 sound wave lines — each starts at a different y, fans outward, no single convergence point */}
-              <line x1="68" y1="40"  x2="8"  y2="12"  stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
-              <line x1="68" y1="80"  x2="4"  y2="80"  stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
-              <line x1="68" y1="120" x2="8"  y2="148" stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
+              <line x1="50" y1="50"  x2="19" y2="26"  stroke="#E85A35" strokeWidth="8" strokeLinecap="square"/>
+              <line x1="58" y1="80"  x2="22" y2="80"  stroke="#E85A35" strokeWidth="8" strokeLinecap="square"/>
+              <line x1="50" y1="110" x2="19" y2="134" stroke="#E85A35" strokeWidth="8" strokeLinecap="square"/>
               {/* Blue triangle — same y-span as brown, offset LEFT 25px only (no y offset) */}
-              <polygon points="70,15 70,145 162,80" fill="#5774E9"/>
+              <polygon points="70,0 70,160 140,80" fill="#5774E9"/>
               {/* Brown triangle — in front, base 25px right of blue's base */}
-              <polygon points="95,15 95,145 187,80" fill="#4E2A29"/>
+              <polygon points="95,0 95,160 165,80" fill="#4E2A29"/>
             </svg>
           </div>
         );

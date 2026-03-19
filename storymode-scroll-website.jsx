@@ -78,11 +78,11 @@ const styles = `
   
   .speaker-left {
     left: 80px;
-    transform: scaleX(-1);
   }
 
   .speaker-right {
     right: 80px;
+    transform: scaleX(-1);
   }
   
   .hero-card {
@@ -515,9 +515,9 @@ const SpeakerIcon = ({ side }) => (
       <line x1="68" y1="80"  x2="4"  y2="80"  stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
       <line x1="68" y1="120" x2="8"  y2="148" stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
       {/* Blue triangle — same y as brown, offset LEFT 25px so its diagonal edges are clearly visible */}
-      <polygon points="70,15 70,145 162,80" fill="#5774E9"/>
+      <polygon points="70,10 70,148 162,146" fill="#5774E9"/>
       {/* Brown triangle — in front */}
-      <polygon points="95,15 95,145 187,80" fill="#4E2A29"/>
+      <polygon points="95,10 95,148 187,146" fill="#4E2A29"/>
     </svg>
   </div>
 );

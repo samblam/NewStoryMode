@@ -80,35 +80,9 @@ const styles = `
     left: 80px;
     transform: scaleX(-1);
   }
-  
+
   .speaker-right {
     right: 80px;
-  }
-  
-  .speaker-lines {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  
-  .speaker-line {
-    height: 3px;
-    background: var(--cta-red);
-    border-radius: 2px;
-  }
-  
-  .speaker-triangle {
-    width: 0;
-    height: 0;
-    border-top: 45px solid transparent;
-    border-bottom: 45px solid transparent;
-    border-left: 55px solid var(--elysium-brown);
-  }
-  
-  .speaker-rect {
-    width: 35px;
-    height: 90px;
-    background: var(--eva-blue);
   }
   
   .hero-card {
@@ -535,13 +509,16 @@ const PlayIcon = () => (
 // Speaker Icon Component
 const SpeakerIcon = ({ side }) => (
   <div className={`speaker-icon speaker-${side}`}>
-    <div className="speaker-lines">
-      {[22, 30, 38, 30, 22].map((w, i) => (
-        <div key={i} className="speaker-line" style={{ width: w }} />
-      ))}
-    </div>
-    <div className="speaker-rect" />
-    <div className="speaker-triangle" />
+    <svg width="210" height="160" viewBox="0 0 210 160">
+      {/* 3 sound wave lines — fanning from different y-positions, not converging to a point */}
+      <line x1="68" y1="40"  x2="8"  y2="12"  stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
+      <line x1="68" y1="80"  x2="4"  y2="80"  stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
+      <line x1="68" y1="120" x2="8"  y2="148" stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
+      {/* Blue triangle — same y as brown, offset LEFT 25px so its diagonal edges are clearly visible */}
+      <polygon points="70,15 70,145 162,80" fill="#5774E9"/>
+      {/* Brown triangle — in front */}
+      <polygon points="95,15 95,145 187,80" fill="#4E2A29"/>
+    </svg>
   </div>
 );
 

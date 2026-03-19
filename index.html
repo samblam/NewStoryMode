@@ -11,6 +11,16 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
+        @font-face {
+            font-family: 'NeueMontreal';
+            src: url('NeueMontreal-Regular.otf') format('opentype');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'NeueMontreal';
+            src: url('NeueMontreal-Medium.otf') format('opentype');
+            font-weight: 700;
+        }
         body { margin: 0; padding: 0; }
     </style>
 </head>
@@ -25,8 +35,7 @@
         // ============================================
 
         const styles = `
-          @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
-          
+                    
           * { margin: 0; padding: 0; box-sizing: border-box; }
           :root {
             --white: #FFFFFF;
@@ -38,7 +47,7 @@
             --cta-red: #FF3500;
           }
           html { scroll-snap-type: y mandatory; overflow-y: scroll; scroll-behavior: smooth; }
-          body { font-family: 'Space Grotesk', -apple-system, sans-serif; background: var(--white); color: var(--black); }
+          body { font-family: 'NeueMontreal', sans-serif; background: var(--white); color: var(--black); }
           .section { min-height: 100vh; scroll-snap-align: start; scroll-snap-stop: always; position: relative; background: var(--white); overflow: hidden; }
           .color-indicator { position: fixed; top: 20px; right: 20px; display: flex; gap: 4px; z-index: 100; }
           .color-bar { width: 24px; height: 10px; }
@@ -78,7 +87,7 @@
           .play-btn { width: 26px; height: 26px; background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; margin: 0 auto; transition: transform 0.2s; }
           .play-btn:hover { transform: scale(1.2); }
           .play-btn svg { fill: var(--white); }
-          .table-footer { display: flex; justify-content: flex-end; padding: 16px 20px; }
+          .table-footer { display: flex; justify-content: flex-end; padding: 16px 20px; margin: 0 1px; }
           .external-link { color: var(--white); font-size: 28px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
           .about-section { display: flex; padding: 60px 40px; gap: 50px; }
           .about-left { flex: 1; }
@@ -169,7 +178,7 @@
               <h2 className="hero-subtitle">UX and Product Sound</h2>
               <p className="hero-description">
                 This website is documentation of our work, who we are and our vision for how sound 
-                can be used to shape our relationship to technology.
+                can be used to shape our relationship with technology.
                 <br /><br />
                 Please enjoy.
               </p>
@@ -391,7 +400,7 @@
               { name: 'Message', type: 'Alert', function: 'Message from a new friend' },
               { name: 'Match', type: 'Alert', function: 'Successful match based on shared hobbies' },
               { name: 'Activity', type: 'UI', function: 'Choosing activities at the start of the user journey' },
-              { name: 'Sound', type: 'UI', function: 'Participating in a group activity; rewarded with discounts' },
+              { name: 'Participate', type: 'UI', function: 'Participating in a group activity; rewarded with discounts' },
             ],
             accentColor: '#E85A35',
             ctaColor: '#FF3500',
@@ -404,12 +413,12 @@
             problem: 'Create distinctive sound set that alerts drivers of various types of orders without looking at their phone.',
             solution: 'We chose woody and rounded sounds to create this sound set. The pallet it inviting and warm, but also attention grabbing. We drew inspiration from aspen stands; a community of hundreds trees that make up one living organism. The four different orders correspond to different variations of the major inversions of the A Major scale.',
             sounds: [
-              { name: 'People', type: 'Alert', function: 'Message from a new friend' },
-              { name: 'Food', type: 'Alert', function: 'Successful match based on shared hobbies' },
-              { name: 'Item', type: 'Alert', function: 'Choosing activities at the start of the user journey' },
-              { name: 'Marijuana', type: 'Alert', function: 'Participating in a group activity; rewarded with discounts' },
-              { name: 'Cash Out', type: 'UI', function: 'Participating in a group activity; rewarded with discounts' },
-              { name: 'Promotion', type: 'Confirmation', function: 'Participating in a group activity; rewarded with discounts' },
+              { name: 'People', type: 'Alert', function: 'New person request' },
+              { name: 'Food', type: 'Alert', function: 'New food request' },
+              { name: 'Item', type: 'Alert', function: 'New item request' },
+              { name: 'Marijuana', type: 'Alert', function: 'New marijuana request' },
+              { name: 'Cash Out', type: 'UI', function: 'Depositing money into bank account' },
+              { name: 'Promotion', type: 'Confirmation', function: 'Promotion available from activity' },
             ],
             accentColor: '#5774E9',
             ctaColor: '#5774E9',
@@ -426,10 +435,10 @@
               { name: 'Sonic Logo', type: 'Confirmation', function: 'Branded tag that plays when opening app' },
               { name: 'Login', type: 'Confirmation', function: 'Successful login' },
               { name: 'Logout', type: 'Confirmation', function: 'Successful logout' },
-              { name: 'Enter Scene', type: 'UI', function: 'Entering scene' },
-              { name: 'Node Place', type: 'UI', function: 'Participating in a group activity; rewarded with discounts' },
-              { name: 'Node Delete', type: 'UI', function: 'Participating in a group activity; rewarded with discounts' },
-              { name: 'Asset Place', type: 'UI', function: 'Participating in a group activity; rewarded with discounts' },
+              { name: 'Enter Scene', type: 'UI', function: 'Enter geotagged area' },
+              { name: 'Node Place', type: 'UI', function: 'Placing node in environment' },
+              { name: 'Node Delete', type: 'UI', function: 'Deleting node' },
+              { name: 'Asset Place', type: 'UI', function: 'Placing 3D asset' },
             ],
             accentColor: '#4E2A29',
             ctaColor: '#4E2A29',

@@ -126,15 +126,15 @@
 
         const SpeakerIcon = ({ side }) => (
           <div className={`speaker-icon speaker-${side}`}>
-            <svg width="190" height="150" viewBox="0 0 190 150" overflow="visible">
-              {/* Sound wave lines — spread out from near the back of the speaker */}
-              <line x1="88" y1="30" x2="15" y2="12" stroke="#FF3500" strokeWidth="10" strokeLinecap="round"/>
-              <line x1="88" y1="75" x2="5"  y2="75" stroke="#FF3500" strokeWidth="10" strokeLinecap="round"/>
-              <line x1="88" y1="120" x2="15" y2="138" stroke="#FF3500" strokeWidth="10" strokeLinecap="round"/>
-              {/* Blue rect — taller than triangle so it peeks above and below */}
-              <rect x="88" y="0" width="28" height="150" fill="#5774E9"/>
-              {/* Dark brown triangle — on top of rect, pointing right */}
-              <polygon points="103,15 103,135 185,75" fill="#4E2A29"/>
+            <svg width="210" height="160" viewBox="0 0 210 160">
+              {/* 3 sound wave lines — each starts at a different y, fans outward, no single convergence point */}
+              <line x1="68" y1="40"  x2="8"  y2="12"  stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
+              <line x1="68" y1="80"  x2="4"  y2="80"  stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
+              <line x1="68" y1="120" x2="8"  y2="148" stroke="#E85A35" strokeWidth="10" strokeLinecap="round"/>
+              {/* Blue triangle — same y-span as brown, offset LEFT 25px only (no y offset) */}
+              <polygon points="70,15 70,145 162,80" fill="#5774E9"/>
+              {/* Brown triangle — in front, base 25px right of blue's base */}
+              <polygon points="95,15 95,145 187,80" fill="#4E2A29"/>
             </svg>
           </div>
         );

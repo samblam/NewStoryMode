@@ -74,7 +74,7 @@
           .info-section { margin-bottom: 28px; }
           .info-section h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--black); }
           .info-section p { font-size: 15px; line-height: 1.65; color: var(--black); }
-          .cta-link { font-size: 18px; font-weight: 500; text-decoration: none; margin-top: auto; padding-top: 20px; }
+          .cta-link { font-size: 18px; font-weight: 500; text-decoration: none; margin-top: auto; padding-top: 20px; background: none; border: none; cursor: pointer; font-family: inherit; }
           .sound-table-wrapper { flex: 1; display: flex; flex-direction: column; position: relative; }
           .sound-table-container { flex: 1; display: flex; flex-direction: column; }
           .sound-table { width: 100%; border-collapse: collapse; color: var(--white); flex: 1; }
@@ -132,6 +132,77 @@
             <polygon points="4,2 16,9 4,16" />
           </svg>
         );
+
+        const StopIcon = () => (
+          <svg width="18" height="18" viewBox="0 0 18 18">
+            <rect x="4" y="4" width="10" height="10" />
+          </svg>
+        );
+
+        const useAudioPlaylist = (sounds) => {
+          const [playing, setPlaying] = React.useState(null);
+          const audioRefs = React.useRef({});
+          const playingRef = React.useRef(null);
+          const playlistModeRef = React.useRef(false);
+
+          const stopCurrent = () => {
+            if (playingRef.current && audioRefs.current[playingRef.current]) {
+              audioRefs.current[playingRef.current].pause();
+              audioRefs.current[playingRef.current].currentTime = 0;
+            }
+          };
+
+          const handlePlay = (name) => {
+            playlistModeRef.current = false;
+            stopCurrent();
+            if (playingRef.current === name || !audioRefs.current[name]) {
+              playingRef.current = null;
+              setPlaying(null);
+            } else {
+              audioRefs.current[name].play();
+              playingRef.current = name;
+              setPlaying(name);
+            }
+          };
+
+          const handleEnded = (name) => {
+            if (playlistModeRef.current) {
+              const currentIdx = sounds.findIndex(s => s.name === name);
+              const next = sounds.slice(currentIdx + 1).find(s => s.audio);
+              if (next) {
+                playingRef.current = next.name;
+                setPlaying(next.name);
+                audioRefs.current[next.name].play();
+              } else {
+                playlistModeRef.current = false;
+                playingRef.current = null;
+                setPlaying(null);
+              }
+            } else {
+              playingRef.current = null;
+              setPlaying(null);
+            }
+          };
+
+          const handlePlaySet = () => {
+            if (playlistModeRef.current) {
+              stopCurrent();
+              playlistModeRef.current = false;
+              playingRef.current = null;
+              setPlaying(null);
+              return;
+            }
+            stopCurrent();
+            const first = sounds.find(s => s.audio);
+            if (!first) return;
+            playlistModeRef.current = true;
+            playingRef.current = first.name;
+            setPlaying(first.name);
+            audioRefs.current[first.name].play();
+          };
+
+          return { playing, audioRefs, handlePlay, handleEnded, handlePlaySet };
+        };
 
         const SpeakerIcon = ({ side }) => (
           <div className={`speaker-icon speaker-${side}`}>
@@ -195,70 +266,7 @@
         ));
 
         const CaseStudySection = React.forwardRef(({ data }, ref) => {
-          const [playing, setPlaying] = React.useState(null);
-          const audioRefs = React.useRef({});
-          const playingRef = React.useRef(null);
-          const playlistModeRef = React.useRef(false);
-
-          const stopCurrent = () => {
-            if (playingRef.current && audioRefs.current[playingRef.current]) {
-              audioRefs.current[playingRef.current].pause();
-              audioRefs.current[playingRef.current].currentTime = 0;
-            }
-          };
-
-          const handlePlay = (name) => {
-            playlistModeRef.current = false;
-            stopCurrent();
-            if (playingRef.current === name) {
-              playingRef.current = null;
-              setPlaying(null);
-            } else {
-              if (audioRefs.current[name]) {
-                audioRefs.current[name].play();
-                playingRef.current = name;
-                setPlaying(name);
-              }
-            }
-          };
-
-          const handleEnded = (name) => {
-            if (playlistModeRef.current) {
-              const sounds = data.sounds;
-              const currentIdx = sounds.findIndex(s => s.name === name);
-              const next = sounds.slice(currentIdx + 1).find(s => s.audio);
-              if (next) {
-                playingRef.current = next.name;
-                setPlaying(next.name);
-                audioRefs.current[next.name].play();
-              } else {
-                playlistModeRef.current = false;
-                playingRef.current = null;
-                setPlaying(null);
-              }
-            } else {
-              playingRef.current = null;
-              setPlaying(null);
-            }
-          };
-
-          const handlePlaySet = (e) => {
-            e.preventDefault();
-            if (playlistModeRef.current) {
-              stopCurrent();
-              playlistModeRef.current = false;
-              playingRef.current = null;
-              setPlaying(null);
-              return;
-            }
-            stopCurrent();
-            const first = data.sounds.find(s => s.audio);
-            if (!first) return;
-            playlistModeRef.current = true;
-            playingRef.current = first.name;
-            setPlaying(first.name);
-            audioRefs.current[first.name].play();
-          };
+          const { playing, audioRefs, handlePlay, handleEnded, handlePlaySet } = useAudioPlaylist(data.sounds);
 
           return (
             <section ref={ref} className="section case-study-section">
@@ -282,9 +290,9 @@
                   <p>{data.solution}</p>
                 </div>
 
-                <a href="#" className="cta-link" style={{ color: data.ctaColor }} onClick={handlePlaySet}>
+                <button className="cta-link" style={{ color: data.ctaColor }} onClick={handlePlaySet}>
                   [listen to the sound set] →
-                </a>
+                </button>
               </div>
 
               <div className="case-study-right">
@@ -303,8 +311,13 @@
                         {data.sounds.map((sound, i) => (
                           <tr key={i}>
                             <td>
-                              <button className="play-btn" onClick={() => handlePlay(sound.name)}>
-                                <PlayIcon />
+                              <button
+                                className="play-btn"
+                                onClick={() => handlePlay(sound.name)}
+                                aria-pressed={playing === sound.name}
+                                aria-label={playing === sound.name ? `Stop ${sound.name}` : `Play ${sound.name}`}
+                              >
+                                {playing === sound.name ? <StopIcon /> : <PlayIcon />}
                               </button>
                               {sound.audio && (
                                 <audio

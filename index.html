@@ -194,70 +194,101 @@
           </section>
         ));
 
-        const CaseStudySection = React.forwardRef(({ data }, ref) => (
-          <section ref={ref} className="section case-study-section">
-            <div className="case-study-left">
-              <h1 className="case-study-title">
-                {data.title} <span>• {data.subtitle}</span>
-              </h1>
-              
-              <div className="info-section">
-                <h3>Client:</h3>
-                <p>{data.client}</p>
+        const CaseStudySection = React.forwardRef(({ data }, ref) => {
+          const [playing, setPlaying] = React.useState(null);
+          const audioRefs = React.useRef({});
+
+          const handlePlay = (name) => {
+            if (playing && audioRefs.current[playing]) {
+              audioRefs.current[playing].pause();
+              audioRefs.current[playing].currentTime = 0;
+            }
+            if (playing === name) {
+              setPlaying(null);
+            } else {
+              if (audioRefs.current[name]) {
+                audioRefs.current[name].play();
+                setPlaying(name);
+              }
+            }
+          };
+
+          const handleEnded = (name) => {
+            setPlaying(n => n === name ? null : n);
+          };
+
+          return (
+            <section ref={ref} className="section case-study-section">
+              <div className="case-study-left">
+                <h1 className="case-study-title">
+                  {data.title} <span>• {data.subtitle}</span>
+                </h1>
+
+                <div className="info-section">
+                  <h3>Client:</h3>
+                  <p>{data.client}</p>
+                </div>
+
+                <div className="info-section">
+                  <h3>Problem</h3>
+                  <p>{data.problem}</p>
+                </div>
+
+                <div className="info-section">
+                  <h3>Solution</h3>
+                  <p>{data.solution}</p>
+                </div>
+
+                <a href="#" className="cta-link" style={{ color: data.ctaColor }}>
+                  [listen to the sound set] →
+                </a>
               </div>
-              
-              <div className="info-section">
-                <h3>Problem</h3>
-                <p>{data.problem}</p>
-              </div>
-              
-              <div className="info-section">
-                <h3>Solution</h3>
-                <p>{data.solution}</p>
-              </div>
-              
-              <a href="#" className="cta-link" style={{ color: data.ctaColor }}>
-                [listen to the sound set] →
-              </a>
-            </div>
-            
-            <div className="case-study-right">
-              <div className="sound-table-wrapper">
-                <div className="sound-table-container" style={{ background: data.accentColor }}>
-                  <table className="sound-table">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>Sound</th>
-                        <th>Type</th>
-                        <th>Function</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {data.sounds.map((sound, i) => (
-                        <tr key={i}>
-                          <td>
-                            <button className="play-btn">
-                              <PlayIcon />
-                            </button>
-                          </td>
-                          <td>{sound.name}</td>
-                          <td>{sound.type}</td>
-                          <td>{sound.function}</td>
+
+              <div className="case-study-right">
+                <div className="sound-table-wrapper">
+                  <div className="sound-table-container" style={{ background: data.accentColor }}>
+                    <table className="sound-table">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Sound</th>
+                          <th>Type</th>
+                          <th>Function</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  <div className="table-footer" style={{ background: data.accentColor }}>
-                    <a href={data.url} className="external-link" target="_blank" rel="noopener noreferrer">
-                      {data.url}
-                    </a>
+                      </thead>
+                      <tbody>
+                        {data.sounds.map((sound, i) => (
+                          <tr key={i}>
+                            <td>
+                              <button className="play-btn" onClick={() => handlePlay(sound.name)}>
+                                <PlayIcon />
+                              </button>
+                              {sound.audio && (
+                                <audio
+                                  ref={el => audioRefs.current[sound.name] = el}
+                                  src={sound.audio}
+                                  onEnded={() => handleEnded(sound.name)}
+                                />
+                              )}
+                            </td>
+                            <td>{sound.name}</td>
+                            <td>{sound.type}</td>
+                            <td>{sound.function}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <div className="table-footer" style={{ background: data.accentColor }}>
+                      <a href={data.url} className="external-link" target="_blank" rel="noopener noreferrer">
+                        {data.url}
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-        ));
+            </section>
+          );
+        });
 
         const AboutSection = React.forwardRef((props, ref) => {
           const team = [
@@ -397,10 +428,10 @@
             problem: "Create a suite of sounds for their platform that would make the experience feel familiar to a networking app yet standout in it's sophistication.",
             solution: "We created an airy and refined sonic pallet to match the assuredness of Obby's personality. The sound set blends knocking percussive elements and simple harmonic timbres, giving it polished confidence and assuredness. The primary cues of match and message have familiar harmonic voicing, yet stand out slightly with their texture.",
             sounds: [
-              { name: 'Message', type: 'Alert', function: 'Message from a new friend' },
-              { name: 'Match', type: 'Alert', function: 'Successful match based on shared hobbies' },
-              { name: 'Activity', type: 'UI', function: 'Choosing activities at the start of the user journey' },
-              { name: 'Participate', type: 'UI', function: 'Participating in a group activity; rewarded with discounts' },
+              { name: 'Message', type: 'Alert', function: 'Message from a new friend', audio: 'OBBYSound/OBBY - MESSAGE.wav' },
+              { name: 'Match', type: 'Alert', function: 'Successful match based on shared hobbies', audio: 'OBBYSound/OBBY - MATCH.wav' },
+              { name: 'Activity', type: 'UI', function: 'Choosing activities at the start of the user journey', audio: 'OBBYSound/OBBY - ACTIVITY.wav' },
+              { name: 'Participate', type: 'UI', function: 'Participating in a group activity; rewarded with discounts', audio: 'OBBYSound/OBBY - PARTICIPATE.wav' },
             ],
             accentColor: '#E85A35',
             ctaColor: '#FF3500',

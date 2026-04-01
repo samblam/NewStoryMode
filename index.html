@@ -197,24 +197,67 @@
         const CaseStudySection = React.forwardRef(({ data }, ref) => {
           const [playing, setPlaying] = React.useState(null);
           const audioRefs = React.useRef({});
+          const playingRef = React.useRef(null);
+          const playlistModeRef = React.useRef(false);
+
+          const stopCurrent = () => {
+            if (playingRef.current && audioRefs.current[playingRef.current]) {
+              audioRefs.current[playingRef.current].pause();
+              audioRefs.current[playingRef.current].currentTime = 0;
+            }
+          };
 
           const handlePlay = (name) => {
-            if (playing && audioRefs.current[playing]) {
-              audioRefs.current[playing].pause();
-              audioRefs.current[playing].currentTime = 0;
-            }
-            if (playing === name) {
+            playlistModeRef.current = false;
+            stopCurrent();
+            if (playingRef.current === name) {
+              playingRef.current = null;
               setPlaying(null);
             } else {
               if (audioRefs.current[name]) {
                 audioRefs.current[name].play();
+                playingRef.current = name;
                 setPlaying(name);
               }
             }
           };
 
           const handleEnded = (name) => {
-            setPlaying(n => n === name ? null : n);
+            if (playlistModeRef.current) {
+              const sounds = data.sounds;
+              const currentIdx = sounds.findIndex(s => s.name === name);
+              const next = sounds.slice(currentIdx + 1).find(s => s.audio);
+              if (next) {
+                playingRef.current = next.name;
+                setPlaying(next.name);
+                audioRefs.current[next.name].play();
+              } else {
+                playlistModeRef.current = false;
+                playingRef.current = null;
+                setPlaying(null);
+              }
+            } else {
+              playingRef.current = null;
+              setPlaying(null);
+            }
+          };
+
+          const handlePlaySet = (e) => {
+            e.preventDefault();
+            if (playlistModeRef.current) {
+              stopCurrent();
+              playlistModeRef.current = false;
+              playingRef.current = null;
+              setPlaying(null);
+              return;
+            }
+            stopCurrent();
+            const first = data.sounds.find(s => s.audio);
+            if (!first) return;
+            playlistModeRef.current = true;
+            playingRef.current = first.name;
+            setPlaying(first.name);
+            audioRefs.current[first.name].play();
           };
 
           return (
@@ -239,7 +282,7 @@
                   <p>{data.solution}</p>
                 </div>
 
-                <a href="#" className="cta-link" style={{ color: data.ctaColor }}>
+                <a href="#" className="cta-link" style={{ color: data.ctaColor }} onClick={handlePlaySet}>
                   [listen to the sound set] →
                 </a>
               </div>

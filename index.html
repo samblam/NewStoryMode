@@ -142,25 +142,22 @@
         const useAudioPlaylist = (sounds) => {
           const [playing, setPlaying] = React.useState(null);
           const audioRefs = React.useRef({});
-          const playingRef = React.useRef(null);
           const playlistModeRef = React.useRef(false);
 
-          const stopCurrent = () => {
-            if (playingRef.current && audioRefs.current[playingRef.current]) {
-              audioRefs.current[playingRef.current].pause();
-              audioRefs.current[playingRef.current].currentTime = 0;
+          const stop = (name) => {
+            if (name && audioRefs.current[name]) {
+              audioRefs.current[name].pause();
+              audioRefs.current[name].currentTime = 0;
             }
           };
 
           const handlePlay = (name) => {
             playlistModeRef.current = false;
-            stopCurrent();
-            if (playingRef.current === name || !audioRefs.current[name]) {
-              playingRef.current = null;
+            stop(playing);
+            if (playing === name || !audioRefs.current[name]) {
               setPlaying(null);
             } else {
               audioRefs.current[name].play();
-              playingRef.current = name;
               setPlaying(name);
             }
           };
@@ -170,33 +167,28 @@
               const currentIdx = sounds.findIndex(s => s.name === name);
               const next = sounds.slice(currentIdx + 1).find(s => s.audio);
               if (next) {
-                playingRef.current = next.name;
                 setPlaying(next.name);
                 audioRefs.current[next.name].play();
               } else {
                 playlistModeRef.current = false;
-                playingRef.current = null;
                 setPlaying(null);
               }
             } else {
-              playingRef.current = null;
               setPlaying(null);
             }
           };
 
           const handlePlaySet = () => {
             if (playlistModeRef.current) {
-              stopCurrent();
+              stop(playing);
               playlistModeRef.current = false;
-              playingRef.current = null;
               setPlaying(null);
               return;
             }
-            stopCurrent();
+            stop(playing);
             const first = sounds.find(s => s.audio);
             if (!first) return;
             playlistModeRef.current = true;
-            playingRef.current = first.name;
             setPlaying(first.name);
             audioRefs.current[first.name].play();
           };

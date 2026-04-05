@@ -340,7 +340,7 @@
 
         const AboutSection = React.forwardRef((props, ref) => {
           const team = [
-            { name: 'Ben', roles: ['Co-Founder', 'Composer'] },
+            { name: 'Ben', roles: ['Co-Founder', 'Composer'], photo: 'ben.jpg' },
             { name: 'Nick', roles: ['Co-Founder', 'Sound Designer'] },
             { name: 'Sam', roles: ['Co-Founder', 'Business Development'] },
           ];
@@ -356,7 +356,11 @@
                         <p key={j}>{role}</p>
                       ))}
                     </div>
-                    <div className="member-photo">[Photo]</div>
+                    <div className="member-photo">
+                      {member.photo
+                        ? <img src={member.photo} alt={member.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        : '[Photo]'}
+                    </div>
                   </div>
                 ))}
               </div>

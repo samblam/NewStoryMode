@@ -459,22 +459,40 @@
           );
         });
 
+        // TO ACTIVATE: Sign up free at formspree.io, create a form pointing to
+        // samuel.ellis.barefoot@gmail.com, then replace YOUR_FORM_ID below with your form ID.
+        const FORMSPREE_ID = 'YOUR_FORM_ID';
+
         const ContactSection = React.forwardRef((props, ref) => {
           const [message, setMessage] = useState('');
           const [email, setEmail] = useState('');
-          const [status, setStatus] = useState('idle'); // idle | sending | sent
+          const [status, setStatus] = useState('idle'); // idle | sending | sent | error
 
-          const handleSubmit = () => {
+          const handleSubmit = async () => {
             if (!message.trim()) return;
             setStatus('sending');
-            const subject = encodeURIComponent('Story Mode - New Message');
-            const body = encodeURIComponent('From: ' + (email || 'no email provided') + '\n\n' + message);
-            window.open('mailto:samuel.ellis.barefoot@gmail.com?subject=' + subject + '&body=' + body);
-            setMessage('');
-            setEmail('');
-            setStatus('sent');
-            setTimeout(() => setStatus('idle'), 3000);
+            try {
+              const res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ email: email || 'not provided', message }),
+              });
+              if (res.ok) {
+                setMessage('');
+                setEmail('');
+                setStatus('sent');
+                setTimeout(() => setStatus('idle'), 4000);
+              } else {
+                setStatus('error');
+                setTimeout(() => setStatus('idle'), 4000);
+              }
+            } catch (_) {
+              setStatus('error');
+              setTimeout(() => setStatus('idle'), 4000);
+            }
           };
+
+          const buttonLabel = { idle: 'Send', sending: 'Sending...', sent: 'Sent!', error: 'Try Again' }[status];
 
           return (
             <section ref={ref} className="section contact-section">
@@ -496,9 +514,9 @@
                   <button
                     className="contact-submit"
                     onClick={handleSubmit}
-                    disabled={status === 'sending'}
+                    disabled={status === 'sending' || status === 'sent'}
                   >
-                    {status === 'sent' ? 'Sent!' : 'Send'}
+                    {buttonLabel}
                   </button>
                 </div>
                 <div className="contact-info">

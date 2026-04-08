@@ -683,11 +683,11 @@ const AboutSection = React.forwardRef((props, ref) => {
 
 // ========== PLAY SECTION ==========
 const characters = [
-  { name: 'bird',       video: 'character animations/bird.mp4',       audio: 'sounds/bird.wav',        x: '8%',  y: '17%', size: '13vw' },
+  { name: 'bird',       video: 'character animations/bird.mp4',       audio: 'sounds/bird.wav',        x: '20%', y: '33%', size: '13vw' },
   { name: 'glyph',      video: 'character animations/glyph.mp4',      audio: 'sounds/glyph.wav',       x: '34%', y: '14%', size: '11vw' },
   { name: 'mondrian',   video: 'character animations/mondrian.mp4',   audio: 'sounds/mondrian.wav',    x: '62%', y: '18%', size: '15vw' },
-  { name: 'star',       video: 'character animations/star.mp4',       audio: 'sounds/star.wav',        x: '89%', y: '15%', size: '13vw' },
-  { name: 'pizza',      video: 'character animations/pizza.mp4',      audio: 'sounds/pizza.wav',       x: '5%',  y: '54%', size: '12vw' },
+  { name: 'star',       video: 'character animations/star.mp4',       audio: 'sounds/star.wav',        x: '47%', y: '24%', size: '13vw' },
+  { name: 'pizza',      video: 'character animations/pizza.mp4',      audio: 'sounds/pizza.wav',       x: '70%', y: '44%', size: '12vw' },
   { name: 'runner',     video: 'character animations/runner.mp4',     audio: 'sounds/running man.wav', x: '30%', y: '60%', size: '14vw' },
   { name: 'semicircle', video: 'character animations/semicircle.mp4', audio: 'sounds/semicircle.wav',  x: '57%', y: '48%', size: '11vw' },
   { name: 'pentaline',  video: 'character animations/pentaline.mp4',  audio: 'sounds/pentaline.wav',   x: '84%', y: '56%', size: '13vw' },

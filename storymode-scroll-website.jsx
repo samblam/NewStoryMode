@@ -262,6 +262,8 @@ const styles = `
     display: flex;
     justify-content: flex-end;
     padding: 16px 20px;
+    border: 3px solid var(--white);
+    border-top: none;
   }
   
   .external-link {

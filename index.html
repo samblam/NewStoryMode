@@ -100,7 +100,7 @@
           .about-right h3 { font-size: 34px; font-weight: 700; margin-bottom: 28px; color: var(--black); }
           .about-right p { font-size: 15px; line-height: 1.75; margin-bottom: 18px; color: var(--black); }
           .play-section { position: relative; }
-          .play-item { position: absolute; cursor: pointer; transform: translate(-50%, -50%); mix-blend-mode: multiply; }
+          .play-item { position: absolute; cursor: pointer; transform: translate(-50%, -50%); }
           .play-item video { display: block; transition: transform 0.2s ease; width: var(--item-size, 14vw); min-width: 80px; max-width: 200px; }
           .play-item:hover video { transform: scale(1.1); }
           .contact-section { display: flex; align-items: center; justify-content: center; padding: 40px; }
@@ -119,9 +119,6 @@
           .scroll-dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; cursor: pointer; transition: background 0.3s, transform 0.3s; }
           .scroll-dot.active { background: var(--black); transform: scale(1.3); }
           .scroll-dot:hover { background: #888; }
-          @media (prefers-color-scheme: dark) {
-            .play-item { mix-blend-mode: normal; }
-          }
           @media (max-width: 1000px) {
             .case-study-section { flex-direction: column; }
             .case-study-left { width: 100%; }
@@ -500,12 +497,14 @@
                 <div key={name} className="play-item" style={{ left: x, top: y, '--item-size': size }} onClick={() => handleClick(name)}>
                   <video
                     ref={el => videoRefs.current[name] = el}
-                    src={video}
-                    poster={`posters/${name}.jpg`}
+                    poster={`posters/${name}.png`}
                     muted
                     playsInline
                     onEnded={handleEnded.bind(null, name)}
-                  />
+                  >
+                    <source src={`character animations webm/${name}.webm`} type="video/webm" />
+                    <source src={video} type="video/mp4" />
+                  </video>
                   <audio
                     ref={el => audioRefs.current[name] = el}
                     src={audio}

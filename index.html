@@ -498,6 +498,7 @@
                   <video
                     ref={el => videoRefs.current[name] = el}
                     src={video}
+                    poster={`posters/${name}.jpg`}
                     muted
                     playsInline
                     onEnded={handleEnded.bind(null, name)}

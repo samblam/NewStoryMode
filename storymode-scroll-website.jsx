@@ -363,6 +363,7 @@ const styles = `
     width: var(--item-size, 14vw);
     min-width: 80px;
     max-width: 200px;
+    aspect-ratio: auto 1 / 1;
   }
 
   .play-item:hover video {

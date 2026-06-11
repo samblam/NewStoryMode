@@ -101,7 +101,7 @@
           .about-right p { font-size: 15px; line-height: 1.75; margin-bottom: 18px; color: var(--black); }
           .play-section { position: relative; }
           .play-item { position: absolute; cursor: pointer; transform: translate(-50%, -50%); }
-          .play-item video { display: block; transition: transform 0.2s ease; width: var(--item-size, 14vw); min-width: 80px; max-width: 200px; }
+          .play-item video { display: block; transition: transform 0.2s ease; width: var(--item-size, 14vw); min-width: 80px; max-width: 200px; aspect-ratio: auto 1 / 1; }
           .play-item:hover video { transform: scale(1.1); }
           .contact-section { display: flex; align-items: center; justify-content: center; padding: 40px; }
           .contact-wrapper { display: flex; align-items: center; gap: 50px; }
@@ -145,8 +145,11 @@
             .case-study-title { font-size: 26px; margin-bottom: 24px; }
             .info-section p { font-size: 14px; }
             .cta-link { font-size: 15px; }
-            /* Make table horizontally scrollable instead of overflowing */
-            .sound-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            /* Make table horizontally scrollable: display:block overrides the flex
+               layout that would otherwise expand the wrapper to fit the table width,
+               bypassing the scroll container. touch-action:pan-x prevents the outer
+               scroll-snap container from swallowing horizontal swipes. */
+            .sound-table-wrapper { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; touch-action: pan-x; }
             /* Container must expand to content width so the accent background covers the full table */
             .sound-table-container { min-width: fit-content; }
             .sound-table { min-width: 480px; }
@@ -180,6 +183,7 @@
               width: 28vw;
               min-width: 60px;
               max-width: 110px;
+              aspect-ratio: auto 1 / 1;
             }
 
             /* Contact */
@@ -499,7 +503,7 @@
                 <div key={name} className="play-item" style={{ left: x, top: y, '--item-size': size }} onClick={() => handleClick(name)}>
                   <video
                     ref={el => videoRefs.current[name] = el}
-                    poster={`posters/${name}.png`}
+                    poster={`posters/${name}.jpg`}
                     muted
                     playsInline
                     onEnded={handleEnded.bind(null, name)}
